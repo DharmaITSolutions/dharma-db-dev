@@ -1,0 +1,21 @@
+.db
+# Python related
+__pycache__/
+*.py[cod]
+*.pyc
+
+# Database files
+dharmatest.db
+*.sqlite
+*.sqlite3
+
+# Environment files
+.env
+
+# IDE specific files
+.idea/
+.vscode/
+
+# Operating system files
+.DS_Store
+Thumbs.db
