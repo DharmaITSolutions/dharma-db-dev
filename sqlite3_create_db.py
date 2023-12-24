@@ -140,7 +140,7 @@ def main():
     ''')
 
     create_orders_table = ('''
-    CREATE TABLE IF NOT EXISTS orders (
+        CREATE TABLE IF NOT EXISTS orders (
         order_id INTEGER PRIMARY KEY AUTOINCREMENT,
         stripe_id TEXT NOT NULL,
         printful_id TEXT NOT NULL,
@@ -150,9 +150,11 @@ def main():
         shipping_address TEXT,
         payment_status TEXT CHECK( payment_status IN ('Paid', 'Pending', 'Failed') ),
         status TEXT CHECK( status IN ('Pending', 'Completed', 'Cancelled') ) NOT NULL DEFAULT 'Pending',
+        promo_id INTEGER,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+        FOREIGN KEY (customer_id) REFERENCES customers(customer_id),
+        FOREIGN KEY (promo_id) REFERENCES promo_codes(promo_id)
     )
     ''')
 
@@ -177,11 +179,24 @@ def main():
     )
     ''')
 
+    create__promo_codes_table = ('''CREATE TABLE IF NOT EXISTS promo_codes (
+    promo_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    code TEXT NOT NULL UNIQUE,
+    discount_value DECIMAL NOT NULL,
+    valid_from DATE,
+    valid_until DATE,
+    active BOOLEAN NOT NULL DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+    ''')
+
     create_table(create_customers_table)
     create_table(create_products_table)
     create_table(create_orders_table)
     create_table(create_order_items_table)
     create_table(create_api_log_table)
+    create_table(create__promo_codes_table)
 
     insert_dummy_customer()
     insert_dummy_product()
