@@ -110,6 +110,7 @@ def insert_api_log(api_name, request_details, response_details):
 
 
 def main():
+    # Need to create promo codes table & associated rows & functions
     create_customers_table = ('''
     CREATE TABLE IF NOT EXISTS customers (
         customer_id TEXT PRIMARY KEY,
